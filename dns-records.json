@@ -1,0 +1,33 @@
+{
+  "verified_at_IST": "2026-10-11T03:10:08+05:30",
+  "resolver": "1.1.1.1",
+  "records": {
+    "72-bpm.com NS": [
+      "joel.ns.cloudflare.com.",
+      "kay.ns.cloudflare.com."
+    ],
+    "72-bpm.com A": [
+      "185.199.110.153",
+      "185.199.111.153",
+      "185.199.109.153",
+      "185.199.108.153"
+    ],
+    "www.72-bpm.com CNAME": [
+      "yadukrishnan117.github.io."
+    ],
+    "72-bpm.com MX": [
+      "10 mx.zoho.in.",
+      "20 mx2.zoho.in.",
+      "50 mx3.zoho.in."
+    ],
+    "72-bpm.com TXT": [
+      "\"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJAuhL3wyLTC3aMuercd4qKzvAahyhUv7cunjY1SF7hoXc9FKmWZO9RSxNXJ7njdydyWz8WUqgri6PDW3MkKOrrCogkwLC0ab6h2EdQUDS6vZObFSgcQ31iOFXZgRRztc6pzDViEtFishy35Ww+ZSk4yt1Zj+j+0CfALa31p8tdwIDAQAB\"",
+      "\"v=spf1 include:zoho.in ~all\"",
+      "\"zoho-verification=zb37492537.zmverify.zoho.in\""
+    ],
+    "zmail._domainkey.72-bpm.com TXT": [
+      "\"v=spf1 include:zoho.in ~all\"",
+      "\"zoho-verification=zb37492537.zmverify.zoho.in\""
+    ]
+  }
+}
