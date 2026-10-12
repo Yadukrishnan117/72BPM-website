@@ -2,3 +2,4 @@ enquiry/node_modules/
 enquiry/.wrangler/
 .dev.vars*
 .env*
+worker-bundle/
