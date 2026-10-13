@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import {connect} from 'node:tls';
 import {handle, json, message} from './handler.mjs';
 export default {fetch:handle};
 
@@ -20,6 +21,14 @@ export class Submission {
       await this.state.storage.put('result',{fingerprint,status:'sending'});
       await this.state.storage.setAlarm(Date.now()+24*60*60*1000);
       const transport=this.createTransport({host:this.env.SMTP_HOST,port:465,secure:true,
+        // Preserve the DNS hostname for Workers' outbound TLS proxy and certificate validation.
+        getSocket:(options,callback)=>{
+          let settled=false;
+          const socket=connect({host:options.host,port:465,servername:options.host,rejectUnauthorized:true});
+          const timeout=setTimeout(()=>{socket.destroy();if(!settled){settled=true;callback(Object.assign(new Error('SMTP connection timeout'),{code:'ETIMEDOUT'}));}},10000);
+          socket.once('secureConnect',()=>{clearTimeout(timeout);if(!settled){settled=true;callback(null,{connection:socket,secured:true});}});
+          socket.once('error',error=>{clearTimeout(timeout);if(!settled){settled=true;callback(error);}});
+        },
         auth:{user:this.env.SMTP_USER,pass:this.env.SMTP_PASSWORD},
         connectionTimeout:10000,greetingTimeout:10000,socketTimeout:15000,
         tls:{minVersion:'TLSv1.2',rejectUnauthorized:true},
@@ -29,9 +38,10 @@ export class Submission {
         if (!result.accepted?.includes('hello@72-bpm.com')) throw new Error('rejected');
         await this.state.storage.put('result',{fingerprint,status:'accepted'});
         return json(200,{ok:true});
-      } catch {
+      } catch (error) {
         await this.state.storage.put('result',{fingerprint,status:'uncertain'});
-        return json(502,{error:'We could not confirm delivery. Please email hello@72-bpm.com and include your reference: '+data.requestId});
+        const reason=error.code==='EAUTH'?'authentication': ['ESOCKET','ECONNECTION','ETIMEDOUT','EDNS'].includes(error.code)?'connection':'smtp';
+        return json(502,{reason,error:'We could not confirm delivery. Please email hello@72-bpm.com and include your reference: '+data.requestId});
       } finally {transport.close();}
     });
   }
