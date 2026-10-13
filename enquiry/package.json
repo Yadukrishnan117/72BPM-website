@@ -1,0 +1,22 @@
+{
+  "name": "72bpm-enquiry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test test.mjs",
+    "deploy": "wrangler deploy",
+    "check": "wrangler deploy --dry-run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "nodemailer": "10.1.0"
+  },
+  "devDependencies": {
+    "wrangler": "4.149.0"
+  },
+  "private": true
+}

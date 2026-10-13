@@ -1,0 +1,10 @@
+{
+  "name": "72bpm-enquiry",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-12",
+  "workers_dev": true,
+  "durable_objects": {"bindings": [{"name": "SUBMISSIONS", "class_name": "Submission"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["Submission"]}],
+  "ratelimits": [{"name": "ENQUIRY_RATE_LIMITER", "namespace_id": "7201", "simple": {"limit": 5, "period": 60}}],
+  "observability": {"enabled": false}
+}
